@@ -13,11 +13,17 @@ interface IState {
 }
 
 class Timer extends React.Component<IProps, IState> {
+
+  public static calcDuration(targetTime: moment.MomentInput) :moment.Duration{
+    return moment.duration(moment(targetTime).diff(moment.now()))
+  }
+
   private timeoutId: number
   constructor(props: any) {
     super(props)
-    this.state = {timeLeft : this.calcDuration(props.targetTime)}
+    this.state = {timeLeft : Timer.calcDuration(props.targetTime)}
   }
+
 
   public componentDidMount() {
     this.timeoutId = window.setInterval(this.updateTimer, this.props.updateFreq)
@@ -31,13 +37,10 @@ class Timer extends React.Component<IProps, IState> {
 
   public updateTimer = () => {
     const {targetTime} = this.props
-    const duration = this.calcDuration(targetTime)
+    const duration = Timer.calcDuration(targetTime)
     this.setState({timeLeft: duration})
   }
 
-  public calcDuration(targetTime: moment.MomentInput) :moment.Duration{
-    return moment.duration(moment(targetTime).diff(moment.now()))
-  }
 
 
   public render() {
