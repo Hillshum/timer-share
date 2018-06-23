@@ -5,7 +5,7 @@ import * as React from 'react'
 export interface IProps {
   targetTime: moment.MomentInput
   updateFreq: number
-  children({timeLeft}: {timeLeft?: moment.Duration}) : JSX.Element
+  children({timeLeft}: {timeLeft: moment.Duration}) : JSX.Element
 }
 
 interface IState {
@@ -47,7 +47,7 @@ class Timer extends React.Component<IProps, IState> {
     const {children} = this.props
     const {timeLeft} = this.state
 
-    return children(timeLeft? {timeLeft} : {})
+    return timeLeft ? children({timeLeft}) : null
   }
 
 }
