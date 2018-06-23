@@ -15,7 +15,7 @@
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
-    "@types/enzyme": "^3.1.10",
+    "@types/enzyme": "^3.1.11",
     "@types/jest": "^23.1.0",
     "@types/lolex": "^2.1.2",
     "@types/node": "^10.3.3",

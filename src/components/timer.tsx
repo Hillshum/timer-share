@@ -8,8 +8,8 @@ export interface IProps {
   children({timeLeft}: {timeLeft: moment.Duration}) : JSX.Element
 }
 
-interface IState {
-  timeLeft?: moment.Duration
+export interface IState {
+  timeLeft: moment.Duration
 }
 
 class Timer extends React.Component<IProps, IState> {
@@ -18,24 +18,25 @@ class Timer extends React.Component<IProps, IState> {
     return moment.duration(moment(targetTime).diff(moment.now()))
   }
 
-  private timeoutId: number
+  private intervalId: number
   constructor(props: any) {
     super(props)
     this.state = {timeLeft : Timer.calcDuration(props.targetTime)}
+    this.updateTimer = this.updateTimer.bind(this)
   }
 
 
   public componentDidMount() {
-    this.timeoutId = window.setInterval(this.updateTimer, this.props.updateFreq)
+    this.intervalId = window.setInterval(this.updateTimer, this.props.updateFreq)
   }
 
   public componentWillUnmount() {
-    if (this.timeoutId) {
-      window.clearTimeout(this.timeoutId)
+    if (this.intervalId) {
+      window.clearInterval(this.intervalId)
     }
   }
 
-  public updateTimer = () => {
+  public updateTimer() {
     const {targetTime} = this.props
     const duration = Timer.calcDuration(targetTime)
     this.setState({timeLeft: duration})
@@ -47,7 +48,7 @@ class Timer extends React.Component<IProps, IState> {
     const {children} = this.props
     const {timeLeft} = this.state
 
-    return timeLeft ? children({timeLeft}) : null
+    return children({timeLeft})
   }
 
 }
